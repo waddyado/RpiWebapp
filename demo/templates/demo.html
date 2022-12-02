@@ -1,0 +1,83 @@
+
+<div class="container-fluid my-3 py-3">
+
+    <div class="row">
+        <div class="col-lg-4">
+            <!-- controls -->
+            <div class="row">
+                <div class="card">
+                    <div class="bg-gray">
+                        <div class="card-title">
+                            <h3>Control Panel</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        
+                        <div class="py-2 my-2">
+                            <h4>Gauge 1</h4>
+                            <input type="button" id="big_minus_l", value="--" />
+                            <input type="button" id="small_minus_l", value="-" />
+                            <input type="button" id="small_plus_l", value="+" />
+                            <input type="button" id="big_plus_l", value="++" />
+                        </div>
+
+                        <div class="py-2 my-2">
+                            <h4>Gauge 2</h4>
+                            <input type="button" id="big_minus_r", value="--" />
+                            <input type="button" id="small_minus_r", value="-" />
+                            <input type="button" id="small_plus_r", value="+" />
+                            <input type="button" id="big_plus_r", value="++" />
+                        </div>
+
+                        <div class="py-2 my-2">
+                            <h4>Voltage</h4>
+                            <form method = 'POST'>
+                                <div class="rangeslider"> 
+                                    <input type="range" min="1" max="100" value="50" class="myslider" id="sliderRange"> 
+                                    <p>
+                                        Voltage: <span id="demo"></span>%
+                                    </p> 
+                                </div> 
+                                    
+                                    <script> 
+                                        const Http = new XMLHttpRequest();
+                                        var rangeslider = document.getElementById("sliderRange"); 
+                                        var output = document.getElementById("demo"); 
+                                        var current;
+                                                    
+                                        rangeslider.oninput = function() {
+                                            current = this.value;
+                                            
+                                            if (current < 33){
+                                                output.innerHTML = current;
+                                                }
+                                            else if (current >= 33 && current <= 66){
+                                                output.innerHTML = current;
+                                            }
+                                            else if (current > 66){
+                                                output.innerHTML = current;
+                                            }
+                                        
+                                            // I've added this call to the server, which send 'current' value
+                                            var valint = Math.round(current)
+                                            Http.open('POST', '/slider_update');
+                                            Http.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+                                            Http.send("val=" + valint.toString());
+                            
+                                        }
+                            
+                                    </script> 
+                            
+                            
+                                </form>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
